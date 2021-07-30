@@ -10,4 +10,6 @@ urlpatterns =[
     path('category/<slug:category_name_slug>/add_page/', views.add_Page, name='add_page'),
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
+    path('restricted/', views.user_login, name='restricted'),
+    path('logout/', views.user_logout, name='logout'),
 ]

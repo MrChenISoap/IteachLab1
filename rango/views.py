@@ -6,6 +6,8 @@ from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm
 from rango.forms import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 
 def index(request):
@@ -18,10 +20,12 @@ def index(request):
     context_dict['pages'] = page_list
     return render(request, 'rango/index.html', context=context_dict)
 
+
 def about(request):
     context_dict = {'boldmessage': ' This tutorial has been put together by Hongyu Chen'}
     return render(request, 'rango/about.html', context=context_dict)
 
+@login_required
 def show_category(request, category_name_slug):
     context_dict = {}
 
@@ -36,6 +40,8 @@ def show_category(request, category_name_slug):
         context_dict['pages'] = None
 
     return render(request, 'rango/category.html', context=context_dict)
+
+@login_required   
 def add_Category(request):
     form = CategoryForm()
 
@@ -50,6 +56,7 @@ def add_Category(request):
 
     return render(request, 'rango/add_category.html', {'form': form})
 
+@login_required
 def add_Page(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
@@ -131,3 +138,7 @@ def user_login(request):
     else:
         return render(request, 'rango/login.html')
 
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect(reverse('rango:index'))
