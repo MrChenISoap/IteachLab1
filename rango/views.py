@@ -25,7 +25,7 @@ def about(request):
     context_dict = {'boldmessage': ' This tutorial has been put together by Hongyu Chen'}
     return render(request, 'rango/about.html', context=context_dict)
 
-@login_required
+
 def show_category(request, category_name_slug):
     context_dict = {}
 
@@ -142,3 +142,7 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect(reverse('rango:index'))
+
+@login_required
+def restricted(request):
+    return render(request, 'rango/restricted.html')
